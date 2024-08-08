@@ -21,6 +21,10 @@ export const Form = ({
   calcularCosto,
   cliente,
   setCliente,
+  techoColor,
+  setTechoColor,
+  lateralesColor,
+  setLateralesColor,
 }) => {
   return (
     <form onSubmit={calcularCosto}>
@@ -69,6 +73,24 @@ export const Form = ({
         value={cerramiento}
         onChange={(e) => setCerramiento(parseFloat(e.target.value))}
       />
+      <div className="checkbox-container">
+        <label htmlFor="lateralesColor">Laterales a color:</label>
+        <input
+          type="checkbox"
+          id="lateralesColor"
+          value={lateralesColor}
+          onChange={(e) => setLateralesColor(e.target.checked)}
+        />
+      </div>
+      <div className="checkbox-container">
+        <label htmlFor="techoColor">Techo a color:</label>
+        <input
+          type="checkbox"
+          id="techoColor"
+          value={techoColor}
+          onChange={(e) => setTechoColor(e.target.checked)}
+        />
+      </div>
       <label htmlFor="tipo_cambio">Tipo de cambio (USD a ARS):</label>
       <input
         type="number"

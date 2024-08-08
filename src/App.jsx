@@ -3,8 +3,8 @@ import { useEffect, useState } from "react";
 import { Resultado } from "./components/Resultado";
 import { convertPDF } from "./utils/jsPDF";
 import { Form } from "./components/Form";
-import { copiarPrecio } from "./utils/copiarPrecio";
-import { VistaPrevia } from "./components/VistaPrevia";
+/* import { copiarPrecio } from "./utils/copiarPrecio";
+ */ import { VistaPrevia } from "./components/VistaPrevia";
 import { PDF } from "./components/PDF";
 import { interp1d } from "./utils/calculadorDeArea";
 import { priceListGalpon, priceListTinglado } from "./utils/precios";
@@ -21,10 +21,10 @@ const App = () => {
   const [porcentaje, setPorcentaje] = useState(3);
   const [km, setKm] = useState(0);
   const [resultado, setResultado] = useState(null);
-  const [outputToCopy, setOutputToCopy] = useState("");
-  const [cliente, setCliente] = useState("");
+  /*   const [outputToCopy, setOutputToCopy] = useState("");
+   */ const [cliente, setCliente] = useState("");
   const [descripcion, setDescripcion] = useState("");
-  const [importeTotal, setImporteTotal] = useState(null);
+  const [importeTotal, setImporteTotal] = useState(0);
   const [materiales, setMateriales] = useState("");
   const [formasPago, setFormasPago] = useState(`
       Pago contado;
@@ -32,6 +32,8 @@ const App = () => {
       Cheques a 150 días (8% de interés);
       Crédito bancario por medio de factura proforma
     `);
+  const [lateralesColor, setLateralesColor] = useState(false);
+  const [techoColor, setTechoColor] = useState(false);
 
   const calcularCosto = (e) => {
     e.preventDefault();
@@ -70,15 +72,24 @@ const App = () => {
           Math.abs(alto - 5) *
           precioColumna *
           (alto > 5 ? 1 : -1);
+
+    //CALCULO DE COSTO DE CERRAMIENTO TENIENDO EN CUENTA EL TIPO DE ESTRUCTURA Y EL TIPO DE CHAPA
     const costoCerramiento =
       estructura === "Tinglado"
         ? 0
+        : lateralesColor
+        ? Math.abs(cerramiento) * perimetro * 27 * 1.6
         : Math.abs(cerramiento - 4.5) *
           perimetro *
           27 *
           (cerramiento > 4.5 ? 1 : -1);
 
-    const costoPiso = areaPiso * precioPorMetro;
+    console.log(costoCerramiento);
+
+    //CAMBIO DE COSTO TECHO POR CHAPA A COLOR
+    const costoPiso = techoColor
+      ? areaPiso * precioPorMetro * 1.6
+      : areaPiso * precioPorMetro;
     let precioTotal = costoPiso + costoColumnas + costoCerramiento;
 
     const costoKm = km * (areaPiso <= 300 ? 1.8 : areaPiso <= 800 ? 2.1 : 4.2);
@@ -109,7 +120,8 @@ const App = () => {
       precioTotalArsFormateado,
       precioFinalArsFormateado,
     });
-    setOutputToCopy(`${precioFinalArsFormateado}`);
+    /*     setOutputToCopy(`${precioFinalArsFormateado}`);
+     */
   };
 
   const generatePreview = () => {
@@ -118,11 +130,21 @@ const App = () => {
         ? `${estructura} de ${largo}mts x ${ancho}mts x ${alto}mts de altura libre con ${cerramiento}mts cerramiento de chapa en los laterales.`
         : `${estructura} de ${largo}mts x ${ancho}mts x ${alto}mts de altura libre`;
 
-    const newMateriales = materialesMap[estructura]?.[material];
+    let newMateriales = materialesMap[estructura]?.[material];
+
+    // Modifica la descripción de materiales si hay color en techo o laterales
+    if (techoColor) {
+      newMateriales = newMateriales.replace("Sincalum", "Color");
+    }
+    if (lateralesColor && estructura === "Galpón") {
+      newMateriales = newMateriales.replace("Sincalum", "Color");
+    }
 
     setDescripcion(newDescripcion);
     setMateriales(newMateriales);
-    setImporteTotal(resultado.precioFinalArsFormateado);
+    setImporteTotal(
+      Math.floor(resultado.precioFinalArsFormateado / 1000) * 1000
+    );
   };
 
   const handleConvertPDF = () => {
@@ -142,12 +164,11 @@ const App = () => {
     setAlto(5);
     setLargo(25);
     setCerramiento(4.5);
-    setTipoCambio(1);
     setPorcentaje(3);
     setKm(0);
     setResultado(null);
-    setOutputToCopy("");
-    setCliente("");
+    /*     setOutputToCopy("");
+     */ setCliente("");
     setDescripcion("");
     setImporteTotal("");
     setMateriales("");
@@ -184,12 +205,16 @@ const App = () => {
         calcularCosto={calcularCosto}
         cliente={cliente}
         setCliente={setCliente}
+        techoColor={techoColor}
+        setTechoColor={setTechoColor}
+        lateralesColor={lateralesColor}
+        setLateralesColor={setLateralesColor}
       />
-      <button
+      {/*      <button
         className="copy-btn"
         onClick={() => copiarPrecio(outputToCopy)}>
         Copiar Precio Final
-      </button>
+      </button> */}
       <Resultado resultado={resultado} />
       <VistaPrevia
         cliente={cliente}
