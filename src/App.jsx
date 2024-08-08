@@ -126,7 +126,7 @@ const App = () => {
   };
 
   const handleConvertPDF = () => {
-    convertPDF();
+    convertPDF(cliente);
   };
 
   useEffect(() => {
