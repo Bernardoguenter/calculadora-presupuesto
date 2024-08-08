@@ -133,7 +133,7 @@ div > p > span {
 }
 
 .pdf-logo {
-  width: 100px;
+  width: 150px;
 }
 
 .pdf-info {
@@ -187,12 +187,12 @@ th {
   font-size: 0.75rem;
 }
 
-@media screen and (max-width: 768px) {
+/* @media screen and (max-width: 768px) {
   #pdf {
     transform: scale(0.5);
   }
 }
-
+ */
 /* Vista previa */
 
 .vista-previa > label,

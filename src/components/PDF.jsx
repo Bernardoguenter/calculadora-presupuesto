@@ -1,5 +1,6 @@
 /* eslint-disable react/prop-types */
-import logo from "../assets/ColmacLogo.jpeg";
+import logo from "../assets/LogoColmac.png";
+import { formatNumber } from "../utils/formatNumbers";
 import StringToList from "./StringToList";
 export const PDF = ({
   cliente,
@@ -44,8 +45,12 @@ export const PDF = ({
           <tbody>
             <tr>
               <td className="text-size">{descripcion}</td>
-              <td className="text-size">${importeTotal}</td>
-              <td className="text-size">${importeTotal}</td>
+              <td className="text-size">
+                {importeTotal ? "$" + formatNumber(importeTotal) : ""}
+              </td>
+              <td className="text-size">
+                {importeTotal ? "$" + formatNumber(importeTotal) : ""}
+              </td>
             </tr>
           </tbody>
         </table>

@@ -19,6 +19,8 @@ export const Form = ({
   km,
   setKm,
   calcularCosto,
+  cliente,
+  setCliente,
 }) => {
   return (
     <form onSubmit={calcularCosto}>
@@ -87,6 +89,13 @@ export const Form = ({
         id="km"
         value={km}
         onChange={(e) => setKm(parseFloat(e.target.value))}
+      />
+      <label htmlFor="cliente">Cliente:</label>
+      <input
+        type="text"
+        id="cliente"
+        value={cliente}
+        onChange={(e) => setCliente(e.target.value)}
       />
       <button type="submit">Calcular Costo</button>
     </form>

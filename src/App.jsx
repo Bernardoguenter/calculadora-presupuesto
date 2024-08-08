@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Resultado } from "./components/Resultado";
 import { convertPDF } from "./utils/jsPDF";
 import { Form } from "./components/Form";
@@ -24,9 +24,14 @@ const App = () => {
   const [outputToCopy, setOutputToCopy] = useState("");
   const [cliente, setCliente] = useState("");
   const [descripcion, setDescripcion] = useState("");
-  const [importeTotal, setImporteTotal] = useState("");
+  const [importeTotal, setImporteTotal] = useState(null);
   const [materiales, setMateriales] = useState("");
-  const [formasPago, setFormasPago] = useState("");
+  const [formasPago, setFormasPago] = useState(`
+      Pago contado;
+      Cheques a 0, 30, 60, 90 días (sin interés);
+      Cheques a 150 días (8% de interés);
+      Crédito bancario por medio de factura proforma
+    `);
 
   const calcularCosto = (e) => {
     e.preventDefault();
@@ -118,17 +123,40 @@ const App = () => {
     setDescripcion(newDescripcion);
     setMateriales(newMateriales);
     setImporteTotal(resultado.precioFinalArsFormateado);
-    setFormasPago(`
-      Pago contado;
-      Cheques a 0, 30, 60, 90 días (sin interés);
-      Cheques a 150 días (8% de interés);
-      Crédito bancario por medio de factura proforma
-    `);
   };
 
   const handleConvertPDF = () => {
     convertPDF();
-    console.log({ cliente, descripcion, importeTotal, materiales, formasPago });
+  };
+
+  useEffect(() => {
+    if (resultado) {
+      generatePreview();
+    }
+  }, [resultado]);
+
+  const handleReset = () => {
+    setEstructura("Galpón");
+    setMaterial("Hierro Torsionado");
+    setAncho(15);
+    setAlto(5);
+    setLargo(25);
+    setCerramiento(4.5);
+    setTipoCambio(1);
+    setPorcentaje(3);
+    setKm(0);
+    setResultado(null);
+    setOutputToCopy("");
+    setCliente("");
+    setDescripcion("");
+    setImporteTotal("");
+    setMateriales("");
+    setFormasPago(`
+        Pago contado;
+        Cheques a 0, 30, 60, 90 días (sin interés);
+        Cheques a 150 días (8% de interés);
+        Crédito bancario por medio de factura proforma
+      `);
   };
 
   return (
@@ -154,15 +182,15 @@ const App = () => {
         km={km}
         setKm={setKm}
         calcularCosto={calcularCosto}
+        cliente={cliente}
+        setCliente={setCliente}
       />
-
-      <h3>Resultado:</h3>
-      <Resultado resultado={resultado} />
       <button
         className="copy-btn"
         onClick={() => copiarPrecio(outputToCopy)}>
         Copiar Precio Final
       </button>
+      <Resultado resultado={resultado} />
       <VistaPrevia
         cliente={cliente}
         setCliente={setCliente}
@@ -185,8 +213,8 @@ const App = () => {
       <div className="buttons-containers">
         <button
           className="generatePreview-btn"
-          onClick={generatePreview}>
-          Generar vista
+          onClick={handleReset}>
+          Resetear vista
         </button>
         <button
           className="generatePDF-btn"

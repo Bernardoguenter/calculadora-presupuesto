@@ -9,6 +9,8 @@ export const VistaPrevia = ({
   setMateriales,
   formasPago,
   setFormasPago,
+  importeTotal,
+  setImporteTotal,
 }) => {
   return (
     <div className="vista-previa">
@@ -19,6 +21,18 @@ export const VistaPrevia = ({
         placeholder="Cliente"
         value={cliente}
         onChange={(e) => setCliente(e.target.value)}
+      />
+      <label htmlFor="Importe total">Importe Total</label>
+      <input
+        name="Importe total"
+        type="text"
+        placeholder="Importe total"
+        value={importeTotal}
+        onChange={(e) =>
+          setImporteTotal(
+            e.target.value === "" ? "" : parseFloat(e.target.value)
+          )
+        }
       />
       <label htmlFor="descripcion">Descripción</label>
       <textarea
