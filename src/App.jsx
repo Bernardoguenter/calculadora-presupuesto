@@ -134,10 +134,16 @@ const App = () => {
 
     // Modifica la descripción de materiales si hay color en techo o laterales
     if (techoColor) {
-      newMateriales = newMateriales.replace("Sincalum", "Color");
+      newMateriales = newMateriales.replace(
+        "Chapa de techo: Sincalum",
+        "Chapa de techo: Color"
+      );
     }
     if (lateralesColor && estructura === "Galpón") {
-      newMateriales = newMateriales.replace("Sincalum", "Color");
+      newMateriales = newMateriales.replace(
+        "Chapa de lateral: Sincalum",
+        "Chapa de lateral: Color"
+      );
     }
 
     setDescripcion(newDescripcion);
