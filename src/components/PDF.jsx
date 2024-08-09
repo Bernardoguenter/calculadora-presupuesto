@@ -78,7 +78,7 @@ export const PDF = ({
         <p className="text-size">Esperamos con interés trabajar con usted.</p>
         <p className="text-size">Le saluda atentamente:</p>
         <p className="text-size">
-          Guenter Bernardo -{" "}
+          {empresa.vendedor} -{" "}
           <span className="firma-span">{empresa.nombre}</span>
         </p>
       </div>
