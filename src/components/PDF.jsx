@@ -1,5 +1,7 @@
 /* eslint-disable react/prop-types */
-import logo from "../assets/LogoColmac.png";
+import logoColmac from "../assets/LogoColmac.png";
+import logoRemeco from "../assets/LogoRemeco.png";
+import logoIndugal from "../assets/LogoIndugal.png";
 import { formatNumber } from "../utils/formatNumbers";
 import StringToList from "./StringToList";
 export const PDF = ({
@@ -8,21 +10,28 @@ export const PDF = ({
   importeTotal,
   materiales,
   formasPago,
+  empresa,
 }) => {
   return (
     <div id="pdf">
       <div className="pdf-header">
         <img
-          src={logo}
+          src={
+            empresa.nombre === "Colmac"
+              ? logoColmac
+              : empresa.nombre === "Metalúrgica Remeco"
+              ? logoRemeco
+              : logoIndugal
+          }
           alt="logo"
           className="pdf-logo"
         />
         <aside className="pdf-info">
-          <p className="text-size">Colmac</p>
+          <p className="text-size">{empresa.nombre}</p>
           <p className="text-size">Colonia Menonita </p>
           <p className="text-size">Remeco la Pampa </p>
-          <p className="text-size">Tel: 2954 811557</p>
-          <p className="text-size">colmaccolmac.ar@gmail.com</p>
+          <p className="text-size">Tel: {empresa.telefono}</p>
+          <p className="text-size">{empresa.email}</p>
         </aside>
       </div>
       <div className="pdf-body">
@@ -68,7 +77,10 @@ export const PDF = ({
       <div className="pdf-footer">
         <p className="text-size">Esperamos con interés trabajar con usted.</p>
         <p className="text-size">Le saluda atentamente:</p>
-        <p className="text-size">Guenter Bernardo - COLMAC</p>
+        <p className="text-size">
+          Guenter Bernardo -{" "}
+          <span className="firma-span">{empresa.nombre}</span>
+        </p>
       </div>
     </div>
   );

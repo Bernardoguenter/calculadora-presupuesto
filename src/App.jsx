@@ -3,12 +3,12 @@ import { useEffect, useState } from "react";
 import { Resultado } from "./components/Resultado";
 import { convertPDF } from "./utils/jsPDF";
 import { Form } from "./components/Form";
-/* import { copiarPrecio } from "./utils/copiarPrecio";
- */ import { VistaPrevia } from "./components/VistaPrevia";
+import { VistaPrevia } from "./components/VistaPrevia";
 import { PDF } from "./components/PDF";
 import { interp1d } from "./utils/calculadorDeArea";
 import { priceListGalpon, priceListTinglado } from "./utils/precios";
 import { materialesMap } from "./utils/materiales";
+import { empresas } from "./utils/empresas";
 
 const App = () => {
   const [estructura, setEstructura] = useState("Galpón");
@@ -17,12 +17,14 @@ const App = () => {
   const [largo, setLargo] = useState(25);
   const [alto, setAlto] = useState(5);
   const [cerramiento, setCerramiento] = useState(4.5);
-  const [tipoCambio, setTipoCambio] = useState(1);
-  const [porcentaje, setPorcentaje] = useState(3);
+  const [tipoCambio, setTipoCambio] = useState(() => {
+    const savedTipoCambio = localStorage.getItem("tipoCambio");
+    return savedTipoCambio !== null ? parseFloat(savedTipoCambio) : 1;
+  });
+  const [porcentaje, setPorcentaje] = useState(0);
   const [km, setKm] = useState(0);
   const [resultado, setResultado] = useState(null);
-  /*   const [outputToCopy, setOutputToCopy] = useState("");
-   */ const [cliente, setCliente] = useState("");
+  const [cliente, setCliente] = useState("");
   const [descripcion, setDescripcion] = useState("");
   const [importeTotal, setImporteTotal] = useState(0);
   const [materiales, setMateriales] = useState("");
@@ -34,6 +36,28 @@ const App = () => {
     `);
   const [lateralesColor, setLateralesColor] = useState(false);
   const [techoColor, setTechoColor] = useState(false);
+  const [empresa, setEmpresa] = useState(empresas[0]);
+
+  useEffect(() => {
+    // Guarda el tipo de cambio en localStorage cada vez que se actualiza
+    localStorage.setItem("tipoCambio", tipoCambio);
+  }, [tipoCambio]);
+
+  useEffect(() => {
+    // Modifica el porcentaje adicional dependiendo de la empresa
+
+    if (empresa.nombre === "Metalúrgica Remeco") {
+      setPorcentaje(0);
+    } else {
+      setPorcentaje(3);
+    }
+  }, [empresa]);
+
+  useEffect(() => {
+    if (resultado) {
+      generatePreview();
+    }
+  }, [resultado]);
 
   const calcularCosto = (e) => {
     e.preventDefault();
@@ -84,8 +108,6 @@ const App = () => {
           27 *
           (cerramiento > 4.5 ? 1 : -1);
 
-    console.log(costoCerramiento);
-
     //CAMBIO DE COSTO TECHO POR CHAPA A COLOR
     const costoPiso = techoColor
       ? areaPiso * precioPorMetro * 1.6
@@ -120,8 +142,6 @@ const App = () => {
       precioTotalArsFormateado,
       precioFinalArsFormateado,
     });
-    /*     setOutputToCopy(`${precioFinalArsFormateado}`);
-     */
   };
 
   const generatePreview = () => {
@@ -157,12 +177,6 @@ const App = () => {
     convertPDF(cliente);
   };
 
-  useEffect(() => {
-    if (resultado) {
-      generatePreview();
-    }
-  }, [resultado]);
-
   const handleReset = () => {
     setEstructura("Galpón");
     setMaterial("Hierro Torsionado");
@@ -173,8 +187,7 @@ const App = () => {
     setPorcentaje(3);
     setKm(0);
     setResultado(null);
-    /*     setOutputToCopy("");
-     */ setCliente("");
+    setCliente("");
     setDescripcion("");
     setImporteTotal("");
     setMateriales("");
@@ -215,12 +228,9 @@ const App = () => {
         setTechoColor={setTechoColor}
         lateralesColor={lateralesColor}
         setLateralesColor={setLateralesColor}
+        empresa={empresa}
+        setEmpresa={setEmpresa}
       />
-      {/*      <button
-        className="copy-btn"
-        onClick={() => copiarPrecio(outputToCopy)}>
-        Copiar Precio Final
-      </button> */}
       <Resultado resultado={resultado} />
       <VistaPrevia
         cliente={cliente}
@@ -240,6 +250,7 @@ const App = () => {
         importeTotal={importeTotal}
         materiales={materiales}
         formasPago={formasPago}
+        empresa={empresa}
       />
       <div className="buttons-containers">
         <button

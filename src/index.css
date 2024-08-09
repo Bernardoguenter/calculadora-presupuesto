@@ -45,6 +45,9 @@ textarea {
 .checkbox-container > label {
   width: max-content;
 }
+.checkbox-container > input {
+  width: 30px;
+}
 
 button {
   background-color: #4caf50;
@@ -196,6 +199,12 @@ th {
 
 .text-size {
   font-size: 0.75rem;
+}
+
+.firma-span {
+  font-weight: 400;
+  text-transform: uppercase;
+  font-size: inherit;
 }
 
 /* @media screen and (max-width: 768px) {

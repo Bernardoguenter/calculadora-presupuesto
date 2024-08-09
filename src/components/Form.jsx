@@ -1,3 +1,5 @@
+import { empresas } from "../utils/empresas";
+
 /* eslint-disable react/prop-types */
 export const Form = ({
   estructura,
@@ -25,9 +27,33 @@ export const Form = ({
   setTechoColor,
   lateralesColor,
   setLateralesColor,
+  empresa,
+  setEmpresa,
 }) => {
   return (
     <form onSubmit={calcularCosto}>
+      <label htmlFor="empresa">Empresa:</label>
+      <select
+        id="empresa"
+        value={empresa.nombre}
+        onChange={(e) =>
+          setEmpresa(empresas.find((emp) => emp.nombre === e.target.value))
+        }>
+        {empresas.map((emp) => (
+          <option
+            key={emp.nombre}
+            value={emp.nombre}>
+            {emp.nombre}
+          </option>
+        ))}
+      </select>
+      <label htmlFor="cliente">Cliente:</label>
+      <input
+        type="text"
+        id="cliente"
+        value={cliente}
+        onChange={(e) => setCliente(e.target.value)}
+      />
       <label htmlFor="estructura">Estructura:</label>
       <select
         id="estructura"
@@ -66,13 +92,18 @@ export const Form = ({
         value={alto}
         onChange={(e) => setAlto(parseFloat(e.target.value))}
       />
-      <label htmlFor="cerramiento">Cerramiento (m):</label>
-      <input
-        type="number"
-        id="cerramiento"
-        value={cerramiento}
-        onChange={(e) => setCerramiento(parseFloat(e.target.value))}
-      />
+      {estructura === "Galpón" && (
+        <>
+          <label htmlFor="cerramiento">Cerramiento (m):</label>
+          <input
+            type="number"
+            id="cerramiento"
+            value={cerramiento}
+            onChange={(e) => setCerramiento(parseFloat(e.target.value))}
+          />
+        </>
+      )}
+
       {estructura === "Galpón" && (
         <div className="checkbox-container">
           <label htmlFor="lateralesColor">Laterales a color:</label>
@@ -113,13 +144,6 @@ export const Form = ({
         id="km"
         value={km}
         onChange={(e) => setKm(parseFloat(e.target.value))}
-      />
-      <label htmlFor="cliente">Cliente:</label>
-      <input
-        type="text"
-        id="cliente"
-        value={cliente}
-        onChange={(e) => setCliente(e.target.value)}
       />
       <button type="submit">Calcular Costo</button>
     </form>
