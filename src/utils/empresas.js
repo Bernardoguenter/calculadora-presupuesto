@@ -1,7 +1,7 @@
 export const empresas = [
   {
     nombre: "Colmac",
-    telefono: "2954 811557",
+    telefono: "2954 805880",
     email: "colmaccolmac.ar@gmail.com",
     vendedor: "Guenter Bernardo",
   },
