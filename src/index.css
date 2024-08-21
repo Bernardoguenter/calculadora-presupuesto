@@ -163,7 +163,7 @@ div > p > span {
 }
 
 .pdf-presupuesto > h2 {
-  font-size: 20px;
+  font-size: 18px;
 }
 
 .pdf-body > h2,
@@ -171,14 +171,14 @@ div > p > span {
 .pdf-formas-pago > h2 {
   text-align: left;
   margin-bottom: 10px;
-  font-size: 16px;
+  font-size: 14px;
 }
 
 table {
   width: 100%;
   border-collapse: collapse;
   margin: 20px 0;
-  font-size: 1rem;
+  font-size: 14px;
   text-align: left;
 }
 th,
@@ -198,12 +198,12 @@ th {
 }
 
 .string-to-list li {
-  margin-bottom: 5px;
+  margin-bottom: 3px;
 }
 
 .text-size {
-  font-size: 0.75rem;
-  line-height: 1rem;
+  font-size: 12px;
+  line-height: 14px;
 }
 
 .firma-span {
@@ -212,12 +212,6 @@ th {
   font-size: inherit;
 }
 
-/* @media screen and (max-width: 768px) {
-  #pdf {
-    transform: scale(0.5);
-  }
-}
- */
 /* Vista previa */
 
 .vista-previa > label,
