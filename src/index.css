@@ -199,6 +199,7 @@ th {
 
 .text-size {
   font-size: 0.75rem;
+  line-height: 1rem;
 }
 
 .firma-span {
@@ -219,4 +220,31 @@ th {
 .vista-previa > input,
 .vista-previa > textarea {
   margin-bottom: 5px;
+}
+
+/* FORM */
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  width: 100%;
+}
+
+.form-container {
+  display: flex;
+  flex-direction: row;
+  gap: 2rem;
+  width: 100%;
+}
+
+.form-col {
+  width: 100%;
+}
+
+@media (max-width: 768px) {
+  .form-container {
+    flex-direction: column;
+    gap: 0;
+  }
 }

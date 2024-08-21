@@ -11,6 +11,7 @@ export const PDF = ({
   materiales,
   formasPago,
   empresa,
+  km,
 }) => {
   return (
     <div id="pdf">
@@ -63,6 +64,13 @@ export const PDF = ({
             </tr>
           </tbody>
         </table>
+        <p className="text-size">
+          *
+          {km > 0
+            ? "El precio inlcuye el flete"
+            : "El precio no inlcuye el flete"}
+        </p>
+        <p className="text-size">*Montaje incluído</p>
         <p className="text-size">*Incluye IVA 10,5%</p>
       </div>
       <div className="pdf-materiales">

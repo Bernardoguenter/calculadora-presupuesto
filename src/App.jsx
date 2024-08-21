@@ -10,6 +10,13 @@ import { priceListGalpon, priceListTinglado } from "./utils/precios";
 import { materialesMap } from "./utils/materiales";
 import { empresas } from "./utils/empresas";
 
+const initialFormaDePago = `
+      Pago contado;
+      Cheques a 0, 30, 60, 90, 120 días (sin interés);
+      Cheques a 150 días (8% de interés);
+      Crédito bancario por medio de factura proforma
+    `;
+
 const App = () => {
   const [estructura, setEstructura] = useState("Galpón");
   const [material, setMaterial] = useState("Hierro Torsionado");
@@ -28,15 +35,11 @@ const App = () => {
   const [descripcion, setDescripcion] = useState("");
   const [importeTotal, setImporteTotal] = useState(0);
   const [materiales, setMateriales] = useState("");
-  const [formasPago, setFormasPago] = useState(`
-      Pago contado;
-      Cheques a 0, 30, 60, 90 días (sin interés);
-      Cheques a 150 días (8% de interés);
-      Crédito bancario por medio de factura proforma
-    `);
+  const [formasPago, setFormasPago] = useState(initialFormaDePago);
   const [lateralesColor, setLateralesColor] = useState(false);
   const [techoColor, setTechoColor] = useState(false);
   const [empresa, setEmpresa] = useState(empresas[0]);
+  const [chapaColor, setChapaColor] = useState(6.74);
 
   useEffect(() => {
     // Guarda el tipo de cambio en localStorage cada vez que se actualiza
@@ -45,7 +48,6 @@ const App = () => {
 
   useEffect(() => {
     // Modifica el porcentaje adicional dependiendo de la empresa
-
     if (empresa.nombre === "Metalúrgica Remeco") {
       setPorcentaje(0);
     } else {
@@ -64,8 +66,10 @@ const App = () => {
     const areaPiso = ancho * largo;
     const perimetro = 2 * (ancho + largo);
     const areaParedes = perimetro * alto;
+    const areaCerramiento = perimetro * cerramiento;
     const areaTotal = areaPiso + areaParedes;
 
+    //SELECCINOAR LISTA DE PRECIOS
     const priceList =
       estructura === "Galpón" ? priceListGalpon : priceListTinglado;
     const interp = interp1d(priceList.area, priceList.precio);
@@ -81,6 +85,7 @@ const App = () => {
       precioPorMetro += 48;
     }
 
+    //CALCULAR COLUMNAS
     const numColumnasLargo = Math.floor(largo / 5) + 1;
     const totalColumnas = numColumnasLargo * 2;
     const precioColumna =
@@ -97,31 +102,45 @@ const App = () => {
           precioColumna *
           (alto > 5 ? 1 : -1);
 
-    //CALCULO DE COSTO DE CERRAMIENTO TENIENDO EN CUENTA EL TIPO DE ESTRUCTURA Y EL TIPO DE CHAPA
+    //CALCULAR COSTO CERRAMIENTO
     const costoCerramiento =
       estructura === "Tinglado"
         ? 0
-        : lateralesColor
-        ? Math.abs(cerramiento) * perimetro * 27 * 1.6
         : Math.abs(cerramiento - 4.5) *
           perimetro *
           27 *
           (cerramiento > 4.5 ? 1 : -1);
 
-    //CAMBIO DE COSTO TECHO POR CHAPA A COLOR
-    const costoPiso = techoColor
-      ? areaPiso * precioPorMetro * 1.6
-      : areaPiso * precioPorMetro;
-    let precioTotal = costoPiso + costoColumnas + costoCerramiento;
+    //CALCULAR COSTO CERRAMIENTO COLOR
+    const costoCerramientoColor = lateralesColor
+      ? areaCerramiento * chapaColor
+      : 0;
 
+    //CALCULO COSTO PISO
+    const costoPiso = areaPiso * precioPorMetro;
+
+    //CAMBIO DE COSTO TECHO POR CHAPA A COLOR
+
+    const costoTechoColor = techoColor ? areaPiso * chapaColor : 0;
+
+    //CALCULAR COSTO KMS
     const costoKm = km * (areaPiso <= 300 ? 1.8 : areaPiso <= 800 ? 2.1 : 4.2);
     const costoKmArs = costoKm * tipoCambio;
 
-    precioTotal += costoKm;
+    //CALCULAR PRECIO TOTAL
+    let precioTotal =
+      costoPiso +
+      costoColumnas +
+      costoCerramiento +
+      costoCerramientoColor +
+      costoTechoColor +
+      costoKm;
 
+    //CALCULO DE TOTALES EN ARS
     const precioTotalArs = precioTotal * tipoCambio;
     const precioFinalArs = precioTotalArs * (1 + porcentaje / 100);
 
+    //FORMATEO DE RESULTADOS
     const precioTotalArsFormateado = precioTotalArs.toFixed(2);
     const precioFinalArsFormateado = precioFinalArs.toFixed(2);
     const costoKmArsFormateado = costoKmArs.toFixed(2);
@@ -230,6 +249,8 @@ const App = () => {
         setLateralesColor={setLateralesColor}
         empresa={empresa}
         setEmpresa={setEmpresa}
+        chapaColor={chapaColor}
+        setChapaColor={setChapaColor}
       />
       <Resultado resultado={resultado} />
       <VistaPrevia
@@ -251,6 +272,7 @@ const App = () => {
         materiales={materiales}
         formasPago={formasPago}
         empresa={empresa}
+        km={km}
       />
       <div className="buttons-containers">
         <button

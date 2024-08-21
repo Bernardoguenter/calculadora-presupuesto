@@ -6,7 +6,7 @@ export const materialesMap = {
             Perfilería para techo y laterales: Perfil de 100x50x2 mm galvanizado;
             Chapa de techo: Sincalum n°25, acanalada;
             Chapa de lateral: Sincalum n°25 Trapezoidal T101;
-            Portón corredizo: de 5x4,5
+            Portón corredizo de 5x4,5
           `,
     "Perfil U Ángulo": `
             Columna y cabreadas de perfil U y ángulo de 180cm x 40cm;
@@ -14,14 +14,14 @@ export const materialesMap = {
             Perfilería para techo y laterales: Perfil de 100x50x2 mm galvanizado;
             Chapa de techo: Sincalum n°25, acanalada;
             Chapa de lateral: Sincalum n°25 Trapezoidal T101;
-            Portón corredizo: de 5x4,5
+            Portón corredizo de 5x4,5
           `,
     "Alma Llena": `
             Columna y cabreadas de alma llena, ala 200x6.4mm, Y de alma 300 x 3.2 mm;
             Perfilería para techo y laterales: Perfil de 100x50x2 mm galvanizado;
             Chapa de techo: Sincalum n°25, acanalada;
             Chapa de lateral: Sincalum n°25 Trapezoidal T101;
-            Portón corredizo: de 5x4,5
+            Portón corredizo de 5x4,5
           `,
   },
   Tinglado: {
