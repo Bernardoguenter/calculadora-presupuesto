@@ -147,7 +147,7 @@ div > p > span {
 }
 
 .pdf-logo {
-  width: 150px;
+  width: 120px;
 }
 
 .pdf-info {
@@ -158,8 +158,8 @@ div > p > span {
 .pdf-presupuesto,
 .pdf-materiales,
 .pdf-formas-pago {
-  margin-top: 20px;
-  margin-bottom: 20px;
+  margin-top: 15px;
+  margin-bottom: 15px;
 }
 
 .pdf-body > h2,
