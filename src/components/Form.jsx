@@ -1,5 +1,3 @@
-import { empresas } from "../utils/empresas";
-
 /* eslint-disable react/prop-types */
 export const Form = ({
   estructura,
@@ -27,8 +25,6 @@ export const Form = ({
   setTechoColor,
   lateralesColor,
   setLateralesColor,
-  empresa,
-  setEmpresa,
   chapaColor,
   setChapaColor,
 }) => {
@@ -38,21 +34,6 @@ export const Form = ({
       className="form">
       <div className="form-container">
         <div className="form-col">
-          <label htmlFor="empresa">Empresa:</label>
-          <select
-            id="empresa"
-            value={empresa.nombre}
-            onChange={(e) =>
-              setEmpresa(empresas.find((emp) => emp.nombre === e.target.value))
-            }>
-            {empresas.map((emp) => (
-              <option
-                key={emp.nombre}
-                value={emp.nombre}>
-                {emp.nombre}
-              </option>
-            ))}
-          </select>
           <label htmlFor="cliente">Cliente:</label>
           <input
             type="text"

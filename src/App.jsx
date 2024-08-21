@@ -8,7 +8,6 @@ import { PDF } from "./components/PDF";
 import { interp1d } from "./utils/calculadorDeArea";
 import { priceListGalpon, priceListTinglado } from "./utils/precios";
 import { materialesMap } from "./utils/materiales";
-import { empresas } from "./utils/empresas";
 
 const initialFormaDePago = `
       Pago contado;
@@ -28,7 +27,7 @@ const App = () => {
     const savedTipoCambio = localStorage.getItem("tipoCambio");
     return savedTipoCambio !== null ? parseFloat(savedTipoCambio) : 1;
   });
-  const [porcentaje, setPorcentaje] = useState(0);
+  const [porcentaje, setPorcentaje] = useState(3);
   const [km, setKm] = useState(0);
   const [resultado, setResultado] = useState(null);
   const [cliente, setCliente] = useState("");
@@ -38,22 +37,12 @@ const App = () => {
   const [formasPago, setFormasPago] = useState(initialFormaDePago);
   const [lateralesColor, setLateralesColor] = useState(false);
   const [techoColor, setTechoColor] = useState(false);
-  const [empresa, setEmpresa] = useState(empresas[0]);
-  const [chapaColor, setChapaColor] = useState(6.74);
+  const [chapaColor, setChapaColor] = useState(6.68);
 
   useEffect(() => {
     // Guarda el tipo de cambio en localStorage cada vez que se actualiza
     localStorage.setItem("tipoCambio", tipoCambio);
   }, [tipoCambio]);
-
-  useEffect(() => {
-    // Modifica el porcentaje adicional dependiendo de la empresa
-    if (empresa.nombre === "Metalúrgica Remeco") {
-      setPorcentaje(0);
-    } else {
-      setPorcentaje(3);
-    }
-  }, [empresa]);
 
   useEffect(() => {
     if (resultado) {
@@ -247,8 +236,6 @@ const App = () => {
         setTechoColor={setTechoColor}
         lateralesColor={lateralesColor}
         setLateralesColor={setLateralesColor}
-        empresa={empresa}
-        setEmpresa={setEmpresa}
         chapaColor={chapaColor}
         setChapaColor={setChapaColor}
       />
@@ -271,7 +258,6 @@ const App = () => {
         importeTotal={importeTotal}
         materiales={materiales}
         formasPago={formasPago}
-        empresa={empresa}
         km={km}
       />
       <div className="buttons-containers">

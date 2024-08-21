@@ -1,29 +1,28 @@
 /* eslint-disable react/prop-types */
 import logoColmac from "../assets/LogoColmac.png";
-import logoRemeco from "../assets/LogoRemeco.png";
-import logoIndugal from "../assets/LogoIndugal.png";
 import { formatNumber } from "../utils/formatNumbers";
 import StringToList from "./StringToList";
+
 export const PDF = ({
   cliente,
   descripcion,
   importeTotal,
   materiales,
   formasPago,
-  empresa,
   km,
 }) => {
+  const empresa = {
+    nombre: "Colmac",
+    telefono: "2954 805880",
+    email: "colmaccolmac.ar@gmail.com",
+    vendedor: "Guenter Bernardo",
+  };
+
   return (
     <div id="pdf">
       <div className="pdf-header">
         <img
-          src={
-            empresa.nombre === "Colmac"
-              ? logoColmac
-              : empresa.nombre === "Metalúrgica Remeco"
-              ? logoRemeco
-              : logoIndugal
-          }
+          src={logoColmac}
           alt="logo"
           className="pdf-logo"
         />
