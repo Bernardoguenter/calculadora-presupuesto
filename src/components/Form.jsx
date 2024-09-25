@@ -27,6 +27,8 @@ export const Form = ({
   setLateralesColor,
   chapaColor,
   setChapaColor,
+  incluyeIva,
+  setIncluyeIva,
 }) => {
   return (
     <form
@@ -140,6 +142,15 @@ export const Form = ({
             value={chapaColor}
             onChange={(e) => setChapaColor(parseFloat(e.target.value))}
           />
+          <div className="checkbox-container">
+            <label htmlFor="incluyeIva">Inlcuye IVA</label>
+            <input
+              type="checkbox"
+              id="incluyeIva"
+              checked={incluyeIva}
+              onChange={(e) => setIncluyeIva(e.target.checked)}
+            />
+          </div>
         </div>
       </div>
       <button type="submit">Calcular Costo</button>

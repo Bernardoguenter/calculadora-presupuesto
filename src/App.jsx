@@ -9,35 +9,60 @@ import { interp1d } from "./utils/calculadorDeArea";
 import { priceListGalpon, priceListTinglado } from "./utils/precios";
 import { materialesMap } from "./utils/materiales";
 
-const initialFormaDePago = `
+const initialValues = {
+  estructura: "Galpón",
+  material: "Hierro Torsionado",
+  ancho: 15,
+  largo: 5,
+  alto: 25,
+  cerramiento: 4.5,
+  tipoCambio: 1,
+  porcentaje: 2,
+  km: 0,
+  resultado: null,
+  cliente: "",
+  descripcion: "",
+  importeTotal: 0,
+  materiales: "",
+  formaDePago: `
       Pago contado;
       Cheques a 0, 30, 60, 90, 120 días (sin interés);
       Cheques a 150 días (8% de interés);
       Crédito bancario por medio de factura proforma
-    `;
+    `,
+  lateralesColor: false,
+  techoColor: false,
+  chapaColor: 6.68,
+  incluyeIva: true,
+};
 
 const App = () => {
-  const [estructura, setEstructura] = useState("Galpón");
-  const [material, setMaterial] = useState("Hierro Torsionado");
-  const [ancho, setAncho] = useState(15);
-  const [largo, setLargo] = useState(25);
-  const [alto, setAlto] = useState(5);
-  const [cerramiento, setCerramiento] = useState(4.5);
+  const [estructura, setEstructura] = useState(initialValues.estructura);
+  const [material, setMaterial] = useState(initialValues.material);
+  const [ancho, setAncho] = useState(initialValues.ancho);
+  const [largo, setLargo] = useState(initialValues.largo);
+  const [alto, setAlto] = useState(initialValues.alto);
+  const [cerramiento, setCerramiento] = useState(initialValues.cerramiento);
   const [tipoCambio, setTipoCambio] = useState(() => {
     const savedTipoCambio = localStorage.getItem("tipoCambio");
-    return savedTipoCambio !== null ? parseFloat(savedTipoCambio) : 1;
+    return savedTipoCambio !== null
+      ? parseFloat(savedTipoCambio)
+      : initialValues.tipoCambio;
   });
-  const [porcentaje, setPorcentaje] = useState(3);
-  const [km, setKm] = useState(0);
-  const [resultado, setResultado] = useState(null);
-  const [cliente, setCliente] = useState("");
-  const [descripcion, setDescripcion] = useState("");
-  const [importeTotal, setImporteTotal] = useState(0);
-  const [materiales, setMateriales] = useState("");
-  const [formasPago, setFormasPago] = useState(initialFormaDePago);
-  const [lateralesColor, setLateralesColor] = useState(false);
-  const [techoColor, setTechoColor] = useState(false);
-  const [chapaColor, setChapaColor] = useState(6.68);
+  const [porcentaje, setPorcentaje] = useState(initialValues.porcentaje);
+  const [km, setKm] = useState(initialValues.km);
+  const [resultado, setResultado] = useState(initialValues.resultado);
+  const [cliente, setCliente] = useState(initialValues.cliente);
+  const [descripcion, setDescripcion] = useState(initialValues.descripcion);
+  const [importeTotal, setImporteTotal] = useState(initialValues.importeTotal);
+  const [materiales, setMateriales] = useState(initialValues.materiales);
+  const [formasPago, setFormasPago] = useState(initialValues.formaDePago);
+  const [lateralesColor, setLateralesColor] = useState(
+    initialValues.lateralesColor
+  );
+  const [techoColor, setTechoColor] = useState(initialValues.techoColor);
+  const [chapaColor, setChapaColor] = useState(initialValues.chapaColor);
+  const [incluyeIva, setIncluyeIva] = useState(initialValues.incluyeIva);
 
   useEffect(() => {
     // Guarda el tipo de cambio en localStorage cada vez que se actualiza
@@ -186,25 +211,21 @@ const App = () => {
   };
 
   const handleReset = () => {
-    setEstructura("Galpón");
-    setMaterial("Hierro Torsionado");
-    setAncho(15);
-    setAlto(5);
-    setLargo(25);
-    setCerramiento(4.5);
-    setPorcentaje(3);
-    setKm(0);
-    setResultado(null);
-    setCliente("");
-    setDescripcion("");
-    setImporteTotal("");
-    setMateriales("");
-    setFormasPago(`
-        Pago contado;
-        Cheques a 0, 30, 60, 90 días (sin interés);
-        Cheques a 150 días (8% de interés);
-        Crédito bancario por medio de factura proforma
-      `);
+    setEstructura(initialValues.estructura);
+    setMaterial(initialValues.material);
+    setAncho(initialValues.ancho);
+    setAlto(initialValues.alto);
+    setLargo(initialValues.largo);
+    setCerramiento(initialValues.cerramiento);
+    setPorcentaje(initialValues.cerramiento);
+    setKm(initialValues.km);
+    setResultado(initialValues.resultado);
+    setCliente(initialValues.cliente);
+    setDescripcion(initialValues.descripcion);
+    setImporteTotal(initialValues.importeTotal);
+    setMateriales(initialValues.materiales);
+    setFormasPago(initialValues.formaDePago);
+    setIncluyeIva(initialValues.incluyeIva);
   };
 
   return (
@@ -238,6 +259,8 @@ const App = () => {
         setLateralesColor={setLateralesColor}
         chapaColor={chapaColor}
         setChapaColor={setChapaColor}
+        incluyeIva={incluyeIva}
+        setIncluyeIva={setIncluyeIva}
       />
       <Resultado resultado={resultado} />
       <VistaPrevia
@@ -259,6 +282,7 @@ const App = () => {
         materiales={materiales}
         formasPago={formasPago}
         km={km}
+        incluyeIva={incluyeIva}
       />
       <div className="buttons-containers">
         <button

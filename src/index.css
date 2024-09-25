@@ -46,7 +46,7 @@ textarea {
   width: max-content;
 }
 .checkbox-container > input {
-  width: 15px;
+  width: auto;
 }
 
 button {

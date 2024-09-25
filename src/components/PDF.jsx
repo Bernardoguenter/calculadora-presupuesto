@@ -10,6 +10,7 @@ export const PDF = ({
   materiales,
   formasPago,
   km,
+  incluyeIva,
 }) => {
   const empresa = {
     nombre: "Colmac",
@@ -70,7 +71,9 @@ export const PDF = ({
             : "El precio no inlcuye el flete"}
         </p>
         <p className="text-size">*Montaje incluído</p>
-        <p className="text-size">*Incluye IVA 10,5%</p>
+        <p className="text-size">
+          {incluyeIva ? "*Incluye IVA 10,5%" : "*NO Incluye IVA 10,5%"}
+        </p>
       </div>
       <div className="pdf-materiales">
         <h2>Detalle de materiales</h2>
