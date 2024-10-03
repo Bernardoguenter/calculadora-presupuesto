@@ -1,9 +1,9 @@
-const priceListGalpon = {
+export const priceListGalpon = {
   area: [50, 100, 150, 200, 250, 300, 350, 400, 500, 600, 700, 800, 900, 1000],
   precio: [167, 162, 152, 147, 144, 143, 141, 139, 137, 135, 133, 131, 129],
 };
 
-const priceListTinglado = {
+export const priceListTinglado = {
   area: [50, 75, 100, 150, 200, 250, 300, 400, 500, 600, 800, 1000],
   precio: [104, 100, 91, 87, 84, 82, 80, 78, 76, 74, 72, 70],
 };
