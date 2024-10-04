@@ -17,7 +17,7 @@ const initialValues = {
   alto: 5,
   cerramiento: 4.5,
   tipoCambio: 1,
-  porcentaje: 2,
+  porcentaje: 0,
   km: 0,
   resultado: null,
   cliente: "",
