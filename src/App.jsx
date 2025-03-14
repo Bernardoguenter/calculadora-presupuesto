@@ -26,13 +26,13 @@ const initialValues = {
   materiales: "",
   formaDePago: `
       Pago contado;
-      Cheques a 0, 30, 60, 90, 120 días (sin interés);
-      Cheques a 150 días (8% de interés);
+      Cheques a 0, 30, 60, 90 días (sin interés);
+      Cheques a 150 días (3% de interés);
       Crédito bancario por medio de factura proforma
     `,
   lateralesColor: false,
   techoColor: false,
-  chapaColor: 6.68,
+  chapaColor: 4.48,
   incluyeIva: true,
 };
 
@@ -180,8 +180,8 @@ const App = () => {
   const generatePreview = () => {
     const newDescripcion =
       estructura === "Galpón"
-        ? `${estructura} de ${largo}mts x ${ancho}mts x ${alto}mts de altura libre con ${cerramiento}mts cerramiento de chapa en los laterales.`
-        : `${estructura} de ${largo}mts x ${ancho}mts x ${alto}mts de altura libre`;
+        ? `${estructura} de ${ancho}mts x ${largo}mts x ${alto}mts de altura libre con ${cerramiento}mts cerramiento de chapa en los laterales.`
+        : `${estructura} de ${ancho}mts x ${largo}mts x ${alto}mts de altura libre`;
 
     let newMateriales = materialesMap[estructura]?.[material];
 
