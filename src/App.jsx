@@ -94,9 +94,9 @@ const App = () => {
     }
 
     if (material === "Perfil U Ángulo") {
-      precioPorMetro += 10;
+      precioPorMetro += 9;
     } else if (material === "Alma Llena") {
-      precioPorMetro += 30;
+      precioPorMetro += 27;
     }
 
     //CALCULAR COLUMNAS
